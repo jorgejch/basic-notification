@@ -1,0 +1,5 @@
+**/.serverless/
+**/node_modules/
+**/venv/
+**/.idea/
+notifications_vars.json
