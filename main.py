@@ -5,7 +5,6 @@ import os
 from datetime import datetime
 
 import pytz
-import smsutil
 from google.cloud import error_reporting
 from twilio.base.exceptions import TwilioException
 from twilio.rest import Client as TwilioClient
@@ -97,7 +96,7 @@ def notify_sms(event, context):
 
     try:
         sms_data = json.loads(base64.b64decode(event['data']).decode('utf-8'))['sms']
-        message_text = smsutil.encode(sms_data['message'])
+        message_text = sms_data['message']
         to_numbers = sms_data['to_numbers']
     except KeyError as e:
         get_logger().error("Message not found in event['data'] due to: {}.".format(e))
