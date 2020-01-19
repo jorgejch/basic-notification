@@ -32,7 +32,7 @@ functions:
     events:
       - event:
           eventType: providers/cloud.pubsub/eventTypes/topic.publish
-          resource: projects/tribal-artifact-263821/topics/send_notification
+          resource: projects/tribal-artifact-263821/topics/send_sms_notification
     environment:
       LOG_LEVEL: DEBUG
       VARS_BUCKET: web-parser-vars
@@ -49,7 +49,7 @@ functions:
     events:
       - event:
           eventType: providers/cloud.pubsub/eventTypes/topic.publish
-          resource: projects/tribal-artifact-263821/topics/send_notification
+          resource: projects/tribal-artifact-263821/topics/send_email_notification
     environment:
       LOG_LEVEL: DEBUG
       VARS_BUCKET: web-parser-vars
