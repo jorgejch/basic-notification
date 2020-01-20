@@ -67,7 +67,12 @@ def notify_sms(event, context):
     >>> mock_context.event_id = '617187464135194'
     >>> mock_context.timestamp = '2019-07-15T22:09:03.761Z'
     >>> mock_context.resource = 'scan_subreddits_new'
-    >>> payload = {'sms': {'to_numbers': ['+18052845139'],'message': 'Hello nurse!!!'}}
+    >>> payload = {'sms': {'to_numbers': ['+18052845139'], 'message': '''Title: 6 boster packs... Enjoy :)
+    ... Submitted: 2020-01-19 19:55:17-08:00
+    ... Excerpts\\n	ZHT-5Vgm-WZ8
+    ... Link: https://redd.it/er7m4a
+    ... Is media link: True'''
+    ... }}
     >>> event = {'data': base64.b64encode(bytes(json.dumps(payload), 'utf-8'))}
     >>> main.notify_sms(event, mock_context)
     0
@@ -95,7 +100,7 @@ def notify_sms(event, context):
         return 1
 
     try:
-        sms_data = json.loads(base64.b64decode(event['data']).decode('utf-8'))['sms']
+        sms_data = json.loads(base64.b64decode(event['data']).decode('latin-1'))['sms']
         message_text = sms_data['message']
         to_numbers = sms_data['to_numbers']
     except KeyError as e:
