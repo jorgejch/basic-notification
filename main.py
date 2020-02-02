@@ -1,3 +1,4 @@
+# -*- coding: utf8 -*-
 import base64
 import json
 import logging
@@ -25,13 +26,12 @@ def get_logger() -> logging.Logger:
 
     formatter = logging.Formatter('[{levelname:<s}]-[{name:>s}]: {message}', None, '{')
     stream_handler = logging.StreamHandler()
-    logger = logging.getLogger()
-    logger.addHandler(stream_handler)
-    for handler in logger.handlers:
+    _logger = logging.getLogger()
+    _logger.addHandler(stream_handler)
+    for handler in _logger.handlers:
         handler.setFormatter(formatter)
         handler.setLevel(logging._nameToLevel[os.getenv('LOG_LEVEL')])
-    logger.setLevel(logging._nameToLevel[os.getenv('LOG_LEVEL')])
-    _logger = logger
+    _logger.setLevel(logging._nameToLevel[os.getenv('LOG_LEVEL')])
     return _logger
 
 
@@ -67,7 +67,7 @@ def notify_sms(event, context):
     >>> mock_context.event_id = '617187464135194'
     >>> mock_context.timestamp = '2019-07-15T22:09:03.761Z'
     >>> mock_context.resource = 'scan_subreddits_new'
-    >>> payload = {'sms': {'to_numbers': ['+18052845139'], 'message': '''Title: 6 boster packs... Enjoy :)
+    >>> payload = {'sms': {'to_numbers': ['+18052845139'], 'message': '''Título: 6 ``boster packs...`` Enjoy :)
     ... Submitted: 2020-01-19 19:55:17-08:00
     ... Excerpts\\n	ZHT-5Vgm-WZ8
     ... Link: https://redd.it/er7m4a
@@ -89,18 +89,18 @@ def notify_sms(event, context):
     ))
 
     try:
-        from_number = get_vars_dict()['FROM_SMS_NUMBER']
+        msg_service_sid = get_vars_dict()['MESSAGING_SERVICE_SID']
     except KeyError as ke:
-        get_logger().error("Failed to get from sms number variable(s) due to: {}.".format(ke))
+        get_logger().error("Failed to get messaging service sid # variable(s) due to: {}.".format(ke))
         get_error_reporting_client().report_exception()
         return 1
     except google_cloud_exceptions.NotFound as nfe:
-        get_logger().error("Failed to get from sms number variable(s) due to: {}.".format(nfe))
+        get_logger().error("Failed to get messaging service sid # variable(s) due to: {}.".format(nfe))
         get_error_reporting_client().report_exception()
         return 1
 
     try:
-        sms_data = json.loads(base64.b64decode(event['data']).decode('latin-1'))['sms']
+        sms_data = json.loads(base64.b64decode(event['data']).decode('utf-8'))['sms']
         message_text = sms_data['message']
         to_numbers = sms_data['to_numbers']
     except KeyError as e:
@@ -114,7 +114,7 @@ def notify_sms(event, context):
                 get_vars_dict()['TWILIO_ACCOUNT_SID'],
                 get_vars_dict()['TWILIO_AUTH_TOKEN']
             ).messages.create(
-                from_=from_number,
+                messaging_service_sid=msg_service_sid,
                 to=to_num,
                 body=message_text
             )
