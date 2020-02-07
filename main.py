@@ -143,7 +143,7 @@ def notify_email(event, context):
     >>> payload = {'email':
     ...             {
     ...                 'message': 'Hello nurse!!!',
-    ...                 'to_emails': ['jorgejch@gmail.com', 'jorgejchaddad@yahoo.com'],
+    ...                 'to_emails': ['jorgejch@gmail.com'],
     ...                 'subject': 'Test emails.'
     ...             }
     ...         }
