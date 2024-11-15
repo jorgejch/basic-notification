@@ -29,37 +29,7 @@ Follow these steps to set up and use the Basic Notification system.
    ```bash
    pip install -r requirements.txt
    ```
-
-### Usage
-
-1. Import the notification module into your project:
-   ```python
-   from notification import Notification
-   ```
-
-2. Create and trigger a notification:
-   ```python
-   notifier = Notification()
-   notifier.send("This is a basic notification message!")
-   ```
-
-### Configuration
-
-You can customize the behavior of notifications by modifying the configuration in the `config.py` file.
-
-### Example
-
-Below is a simple example of using the system to send multiple notifications:
-```python
-from notification import Notification
-
-notifier = Notification()
-messages = ["Hello, world!", "Notification 2", "Final notification"]
-
-for message in messages:
-    notifier.send(message)
-```
-
+   
 ## Contributing
 
 Contributions are welcome! Please follow these steps to contribute:
